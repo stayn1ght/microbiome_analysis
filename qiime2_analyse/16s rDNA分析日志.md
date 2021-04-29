@@ -1,12 +1,12 @@
 # 16s rDNA分析
 
-参考教程[QIIME 2教程. 07Cell帕金森小鼠Parkinson‘s Mouse(2020.11，最佳实战)]([QIIME 2教程. 07Cell帕金森小鼠Parkinson's Mouse(2020.11，最佳实战)_刘永鑫的博客——宏基因组公众号-CSDN博客](https://metagenome.blog.csdn.net/article/details/76647849))
+参考教程[QIIME 2教程. 07Cell帕金森小鼠Parkinson‘s Mouse(2020.11，最佳实战)](https://metagenome.blog.csdn.net/article/details/76647849)
 
 从ebi上下载的16s rDNA序列，其格式为fastq，即带有质量信息的序列数据。数据中没有引物序列。
 
 ### 从ncbi和ebi下载数据.
 
-参考[GMrepo2021 数据下载]([01 - GMrepo2021 数据下载、分析到装入数据库 (shimo.im)](https://shimo.im/docs/UR6aCGC4ZNUm2Tuj/read))
+参考[GMrepo2021 数据下载](https://shimo.im/docs/UR6aCGC4ZNUm2Tuj/read)
 
 accession list：'filereport_read_run\_*_tsv.txt' (因项目而异)
 
@@ -37,7 +37,7 @@ sh /mnt/raid8/datarepo/scripts/01_download_rawdata.sh runs.uniq.lst   ena   fast
 
 导入数据可视化, 看质量信息
 
-![质量信息](D:\Documents\GitHub\qiime2_analyse\figures\quality.png)
+![质量信息](./figures/quality.png)
 
 ### 去噪
 
