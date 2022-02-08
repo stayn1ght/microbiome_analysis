@@ -44,3 +44,5 @@ mm_lefse <- run_lefse(
     lda_cutoff = 4
 )
 #### 
+
+# Visualization
