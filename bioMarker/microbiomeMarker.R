@@ -46,3 +46,4 @@ mm_lefse <- run_lefse(
 #### 
 
 # Visualization
+plot_ef_bar(lefse)
