@@ -47,15 +47,10 @@ sh /mnt/raid8/datarepo/scripts/01_download_rawdata.sh runs.uniq.lst   ena   fast
 
 ### 物种注释
 
-[结果图](./figures/level-4-bars.svg)
 
-[图例](./figures/level-4-legend.svg)
 
-### 差异菌分析
 
-#### ancom volcano plot
 
-![结果](./figures/visualization.png)
 
 
 
