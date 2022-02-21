@@ -1,4 +1,3 @@
-# !usr/bin/bash
 # 激活qiime2环境
 conda activate qiime2-2021.11
 
@@ -9,12 +8,13 @@ qiime tools import \
    --output-path 03_qiime_results/02_paired-end-demux.qza \
    --input-format PairedEndFastqManifestPhred33V2 
 
-# 数据质量可视化，包括测序深度和质量信息
+# 查看数据质量
 qiime demux summarize \
    --i-data 03_qiime_results/02_paired-end-demux.qza \
    --o-visualization 03_qiime_results/paired-end-demux.qzv
 
-# 降噪, 截取片段所用的值根据质量信息来选择
+# 序列质控和生成特征表
+## 降噪, 截取片段所用的值根据前一步质量信息来选择
 qiime dada2 denoise-paired \
   --i-demultiplexed-seqs 02_paired-end-demux.qza \
   --p-trim-left-f 13 \
@@ -50,21 +50,10 @@ qiime metadata tabulate \
   --o-visualization 03_qiime_results/taxonomy.qzv
 
 
-# 可视化
+# 可视化，物种堆叠柱状图
 qiime taxa barplot \
   --i-table 03_qiime_results/03_table.qza \
   --i-taxonomy 03_qiime_results/06_taxonomy.qza \
   --m-metadata-file meta \
   --o-visualization 03_qiime_results/taxa-bar-plots.qzv
 
-# 物种折叠
-## level6 对应属genus
-qiime taxa collapse \
-  --i-table 03*/03_table.qza \
-  --i-taxonomy 03*/06_taxonomy.qza \
-  --p-level 6 \
-  --o-collapsed-table 03*/08_table_level6.qza
-  
-qiime tools export \
-  --input-path 03*/08_table_level6.qza \
-  --output-path 08_table_level6
