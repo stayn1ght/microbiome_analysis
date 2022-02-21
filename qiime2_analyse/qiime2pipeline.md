@@ -7,6 +7,7 @@ conda activate qiime2-2021.11
 
 ## 导入数据
 ```bash
+mkdir 03_qiime_results
 qiime tools import \
    --type 'SampleData[PairedEndSequencesWithQuality]' \
    --input-path manifest \
