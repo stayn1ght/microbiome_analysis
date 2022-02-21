@@ -8,7 +8,7 @@ conda activate qiime2-2021.11
 ## 导入数据
 ```bash
 mkdir 03_qiime_results
-qiime tools import \
+time qiime tools import \
    --type 'SampleData[PairedEndSequencesWithQuality]' \
    --input-path manifest \
    --output-path 03_qiime_results/02_paired-end-demux.qza \
@@ -18,7 +18,7 @@ qiime tools import \
 ## 查看数据质量
 
 ```bash
-qiime demux summarize \
+time qiime demux summarize \
    --i-data 03_qiime_results/02_paired-end-demux.qza \
    --o-visualization 03_qiime_results/paired-end-demux.qzv
 ```
@@ -27,7 +27,7 @@ qiime demux summarize \
 dada2降噪流程, 截取片段所用的值根据前一步质量信息来选择
 
 ```bash
-qiime dada2 denoise-paired \
+time qiime dada2 denoise-paired \
   --i-demultiplexed-seqs 02_paired-end-demux.qza \
   --p-trim-left-f 13 \
   --p-trim-left-r 13 \
@@ -48,12 +48,12 @@ qiime dada2 denoise-paired \
 这里使用的metadata是用了manifest，但是manifest文件中实际上没有录入表型信息，需要对metadata.tsv文件进行处理作为metadata信息进行处理
 
 ```bash
-qiime feature-table summarize \
+time qiime feature-table summarize \
   --i-table 03_qiime_results/03_table.qza \
   --o-visualization 03_qiime_results/table.qzv \
   --m-sample-metadata-file meta
   
-qiime feature-table tabulate-seqs \
+time qiime feature-table tabulate-seqs \
   --i-data 03_qiime_results/04_rep-seqs.qza \
   --o-visualization 03_qiime_results/rep-seqs.qzv
 ```
@@ -66,19 +66,19 @@ qiime feature-table tabulate-seqs \
 metadata tabulate命令将id与数据相对应
 
 ```bash
-qiime feature-classifier classify-sklearn \
+time qiime feature-classifier classify-sklearn \
   --i-classifier /mnt/raid7/mingyuwang/gut_fungus/example_PRJNA751473_ITS/02_classifier/01* \
   --i-reads 03_qiime_results/04_rep-seqs.qza \
   --o-classification 03_qiime_results/06_taxonomy.qza
   
-qiime metadata tabulate \
+time qiime metadata tabulate \
   --m-input-file 03_qiime_results/06_taxonomy.qza \
   --o-visualization 03_qiime_results/taxonomy.qzv
 ```
 
 ## 可视化，物种堆叠柱状图
 ```bash
-qiime taxa barplot \
+time qiime taxa barplot \
   --i-table 03_qiime_results/03_table.qza \
   --i-taxonomy 03_qiime_results/06_taxonomy.qza \
   --m-metadata-file meta \
