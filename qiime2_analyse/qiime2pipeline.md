@@ -87,3 +87,41 @@ time qiime taxa barplot \
 
 ## 生成丰度表
 [利用biom生成丰度表](https://github.com/iceQHdrop/16s_Taxonomic-analysis#%E5%88%A9%E7%94%A8biom%E5%AE%8C%E6%88%90%E4%B8%B0%E5%BA%A6%E8%A1%A8)
+
+得到物种注释并产生biom表
+```bash
+qiime tools export \
+  --input-path 03_qiime_results/06_taxonomy.qza \
+  --output-path taxa
+
+sed -i -e '1 s/Feature/#Feature/' -e '1 s/Taxon/taxonomy/' taxa/taxonomy.tsv
+
+qiime tools export \
+  --input-path 03_qiime_results/03_table.qza \
+  --output-path table_exported
+
+```
+生成丰度表
+```bash
+biom add-metadata \
+  -i table_exported/feature-table.biom \
+  -o table_exported/feature-table_w_tax.biom \
+  --observation-metadata-fp taxa/taxonomy.tsv \
+  --sc-separated taxonomy
+
+biom convert \
+  -i table_exported/feature-table_w_tax.biom \
+  -o table_exported/feature-table_w_tax.txt \
+  --header-key taxonomy \
+  --to-tsv
+
+sed -i '1d' feature-table_w_tax.txt
+
+```
+得到最终的丰度表
+```bash
+python adjust-abundance.py \
+  -i feature-table_w_tax.txt \
+  -o abundance.csv
+
+```
