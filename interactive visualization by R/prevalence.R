@@ -6,6 +6,12 @@ library(plotly)
 feature sample1 sample2 ...
 k_fungi;1 0.1 0.2
 
-read.table(file = <featuretable>, header = , sep =)
-def function
+feat_table <- read.table(file = <featuretable>, header = , sep =)
+prevalance_calculate <- function(table, therohold){
+    bull_table <- table > therohold
+    rowSums(bulltable)
+    
+}
+
+relative_abundance <- 
 ## 用plotly绘制交互式散点图
