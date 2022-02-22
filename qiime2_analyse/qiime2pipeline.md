@@ -28,7 +28,7 @@ dada2降噪流程, 截取片段所用的值根据前一步质量信息来选择
 
 ```bash
 time qiime dada2 denoise-paired \
-  --i-demultiplexed-seqs 02_paired-end-demux.qza \
+  --i-demultiplexed-seqs 03_qiime_results/02_paired-end-demux.qza \
   --p-trim-left-f 13 \
   --p-trim-left-r 13 \
   --p-trunc-len-f 250 \
