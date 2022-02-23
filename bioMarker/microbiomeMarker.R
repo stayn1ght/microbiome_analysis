@@ -8,6 +8,7 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 
 BiocManager::install("microbiomeMarker")
 
+
 library(microbiomeMarker)
 
 # importing data from qiime2
@@ -43,7 +44,7 @@ mm_lefse <- run_lefse(
     group = "####",
     kw_cutoff = 0.01,
     multigrp_strat = TRUE,
-    lda_cutoff = 4
+    lda_cutoff = 2
 )
 #### 
 
