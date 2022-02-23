@@ -95,7 +95,7 @@ time qiime dada2 denoise-paired \
 ```bash
 # for single end sequence
 time qiime dada2 denoise-single \
-  --i-demultiplexed-seqs 03_qiime_results/02_paired-end-demux.qza \
+  --i-demultiplexed-seqs 03_qiime_results/02_single-end-demux.qza \
   --o-table 03_qiime_results/03_table.qza \
   --o-representative-sequences 03_qiime_results/04_rep-seqs.qza \
   --o-denoising-stats 03_qiime_results/05_denoising-stats.qza \
