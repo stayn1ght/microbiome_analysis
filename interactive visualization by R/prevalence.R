@@ -8,8 +8,8 @@ k_fungi;1 0.1 0.2
 
 feat_table <- read.table(file = <featuretable>, header = , sep =)
 prevalance_calculate <- function(table, therohold){
-    bull_table <- table > therohold
-    rowSums(bulltable)
+    bool_table <- table > therohold
+    rowSums(booltable)
     
 }
 
