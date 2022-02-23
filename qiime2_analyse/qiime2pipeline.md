@@ -1,43 +1,115 @@
 # qiime2工作流程
 
+## preparations
+### download_data
+```bash
+awk -F "," '{print $1}' SraRunTable.txt > run_acc.ls
+sh /mnt/raid8/datarepo/scripts/01_download_rawdata.sh *.ls   ena   fastq
+rm *.ls
+
+```
+
+### make manifest for improting data
+```bash
+# pair end sequence
+ls 01_rawdata > temp1
+ls 01_rawdata/SRR*/*_1.fastq* > temp2
+ls 01_rawdata/SRR*/*_2.fastq* > temp3
+sed -i 's/^/$PWD\//' temp2
+sed -i 's/^/$PWD\//' temp3
+Rscript /mnt/raid7/mingyuwang/gut_fungus/example_PRJNA751473_ITS/rscript1
+rm temp* 
+
+```
+
+```bash
+# single end sequence
+ls 01_rawdata > temp1
+ls 01_rawdata/ERR*/*.fastq* > temp2
+sed -i 's/^/$PWD\//' temp2
+Rscript /mnt/raid7/mingyuwang/gut_fungus/example_PRJNA751473_ITS/rscript2_singleend
+rm temp*
+
+```
+
+
 ## 激活qiime2环境
 ```bash
 conda activate qiime2-2021.11
+
 ```
 
 ## 导入数据
 ```bash
 mkdir 03_qiime_results
 time qiime tools import \
-   --type 'SampleData[PairedEndSequencesWithQuality]' \
-   --input-path manifest \
-   --output-path 03_qiime_results/02_paired-end-demux.qza \
-   --input-format PairedEndFastqManifestPhred33V2 
+  --type 'SampleData[PairedEndSequencesWithQuality]' \
+  --input-path manifest \
+  --output-path 03_qiime_results/02_paired-end-demux.qza \
+  --input-format PairedEndFastqManifestPhred33V2
+
+```
+
+```bash
+# single end sequence
+mkdir 03_qiime_results
+time qiime tools import \
+  --type 'SampleData[SequencesWithQuality]' \
+  --input-path manifest \
+  --output-path 03_qiime_results/02_single-end-demux.qza \
+  --input-format SingleEndFastqManifestPhred33V2
+
 ```
 
 ## 查看数据质量
 
 ```bash
 time qiime demux summarize \
-   --i-data 03_qiime_results/02_paired-end-demux.qza \
-   --o-visualization 03_qiime_results/paired-end-demux.qzv
+  --i-data 03_qiime_results/02_paired-end-demux.qza \
+  --o-visualization 03_qiime_results/paired-end-demux.qzv
+
 ```
 
+```bash
+# for single end sequence
+time qiime demux summarize \
+  --i-data 03_qiime_results/02_single-end-demux.qza \
+  --o-visualization 03_qiime_results/single-end-demux.qzv
+
+```
 ## 序列质控和生成特征表
 dada2降噪流程, 截取片段所用的值根据前一步质量信息来选择
 
 ```bash
 time qiime dada2 denoise-paired \
   --i-demultiplexed-seqs 03_qiime_results/02_paired-end-demux.qza \
+  --o-table 03_qiime_results/03_table.qza \
+  --o-representative-sequences 03_qiime_results/04_rep-seqs.qza \
+  --o-denoising-stats 03_qiime_results/05_denoising-stats.qza \
   --p-trim-left-f 13 \
   --p-trim-left-r 13 \
   --p-trunc-len-f 250 \
   --p-trunc-len-r 178 \
-  --o-table 03_qiime_results/03_table.qza \
-  --o-representative-sequences 03_qiime_results/04_rep-seqs.qza \
-  --o-denoising-stats 03_qiime_results/05_denoising-stats.qza
 ```
 
+```bash
+# for single end sequence
+time qiime dada2 denoise-single \
+  --i-demultiplexed-seqs 03_qiime_results/02_paired-end-demux.qza \
+  --o-table 03_qiime_results/03_table.qza \
+  --o-representative-sequences 03_qiime_results/04_rep-seqs.qza \
+  --o-denoising-stats 03_qiime_results/05_denoising-stats.qza \
+  --p-trim-left 13 \
+  --p-trunc-len 150
+```
+
+d对特征表统计进行可视化
+```bash
+qiime metadata tabulate \
+  --m-input-file 03_qiime_results/05_denoising-stats.qza \
+  --o-visualization 03_qiime_results/denoising-stats.qzv
+  
+```
 
 
 ## 特征表和特征序列汇总
