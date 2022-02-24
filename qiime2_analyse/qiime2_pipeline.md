@@ -164,36 +164,36 @@ time qiime taxa barplot \
 ```bash
 qiime tools export \
   --input-path 03_qiime_results/06_taxonomy.qza \
-  --output-path test/taxa
+  --output-path 04_feature_table/taxa
 
-sed -i -e '1 s/Feature/#Feature/' -e '1 s/Taxon/taxonomy/' test/taxa/taxonomy.tsv
+sed -i -e '1 s/Feature/#Feature/' -e '1 s/Taxon/taxonomy/' 04_feature_table/taxa/taxonomy.tsv
 
 qiime tools export \
   --input-path 03_qiime_results/03_table.qza \
-  --output-path test/table_exported
+  --output-path 04_feature_table/table_exported
 
 ```
 生成丰度表
 ```bash
 biom add-metadata \
-  -i test/table_exported/feature-table.biom \
-  -o test/table_exported/feature-table_w_tax.biom \
-  --observation-metadata-fp test/taxa/taxonomy.tsv \
+  -i 04_feature_table/table_exported/feature-table.biom \
+  -o 04_feature_table/table_exported/feature-table_w_tax.biom \
+  --observation-metadata-fp 04_feature_table/taxa/taxonomy.tsv \
   --sc-separated taxonomy
 
 biom convert \
-  -i test/table_exported/feature-table_w_tax.biom \
-  -o test/table_exported/feature-table_w_tax.txt \
+  -i 04_feature_table/table_exported/feature-table_w_tax.biom \
+  -o 04_feature_table/table_exported/feature-table_w_tax.txt \
   --header-key taxonomy \
   --to-tsv
 
-sed -i '1d' test/table_exported/feature-table_w_tax.txt
+sed -i '1d' 04_feature_table/table_exported/feature-table_w_tax.txt
 
 ```
-得到最终的丰度表
+得到最终的丰度表, 种水平
 ```bash
-python /mnt/raid7/mingyuwang/gut_fungus/example_PRJNA751473_ITS/13_make_feature_table/adjust-abundance.py \
-  -i test/table_exported/feature-table_w_tax.txt \
-  -o test/abundance.csv
+python /mnt/raid7/mingyuwang/gut_fungus/example_PRJNA751473_ITS/14_make_feature_table/adjust-abundance.py \
+  -i 04_feature_table/table_exported/feature-table_w_tax.txt \
+  -o 04_feature_table/abundance.csv
 
 ```
