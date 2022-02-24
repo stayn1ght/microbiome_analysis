@@ -2,6 +2,8 @@
 # [help documents](https://bioconductor.org/packages/release/bioc/vignettes/microbiomeMarker/inst/doc/microbiomeMarker-vignette.html)
 
 # installation
+## the newest version of BiocManager is only available on R 4.1
+## use R on waston for the analysis below 
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
     install.packages("BiocManager")
 }
