@@ -103,12 +103,12 @@ time qiime dada2 denoise-single \
   --p-trunc-len 150
 ```
 
-d对特征表统计进行可视化
+对特征表统计进行可视化
 ```bash
 qiime metadata tabulate \
   --m-input-file 03_qiime_results/05_denoising-stats.qza \
   --o-visualization 03_qiime_results/denoising-stats.qzv
-  
+
 ```
 
 
@@ -117,7 +117,6 @@ qiime metadata tabulate \
 
 特性表汇总命令（feature-table summarize）将向你提供关于与每个样品和每个特性相关联的序列数量、这些分布的直方图以及一些相关的汇总统计数据的信息。特征表序列表格feature-table tabulate-seqs命令将提供特征ID到序列的映射。
 
-这里使用的metadata是用了manifest，但是manifest文件中实际上没有录入表型信息，需要对metadata.tsv文件进行处理作为metadata信息进行处理
 
 ```bash
 time qiime feature-table summarize \
@@ -128,6 +127,7 @@ time qiime feature-table summarize \
 time qiime feature-table tabulate-seqs \
   --i-data 03_qiime_results/04_rep-seqs.qza \
   --o-visualization 03_qiime_results/rep-seqs.qzv
+  
 ```
 ## feature table 过滤
 
@@ -146,6 +146,7 @@ time qiime feature-classifier classify-sklearn \
 time qiime metadata tabulate \
   --m-input-file 03_qiime_results/06_taxonomy.qza \
   --o-visualization 03_qiime_results/taxonomy.qzv
+
 ```
 
 ## 可视化，物种堆叠柱状图
@@ -155,16 +156,19 @@ time qiime taxa barplot \
   --i-taxonomy 03_qiime_results/06_taxonomy.qza \
   --m-metadata-file meta \
   --o-visualization 03_qiime_results/taxa-bar-plots.qzv
+
 ```
 
 ## 生成丰度表
+可以把taxa-bar-plots.qzv放到qiime2view中查看,然后下载相应的丰度表, 这样获得的丰度表中含有表型信息, 而后面这种方法暂时没有.
+
 [利用biom生成丰度表](https://github.com/iceQHdrop/16s_Taxonomic-analysis#%E5%88%A9%E7%94%A8biom%E5%AE%8C%E6%88%90%E4%B8%B0%E5%BA%A6%E8%A1%A8)
 
 得到物种注释并产生biom表
 ```bash
 qiime tools export \
   --input-path 03_qiime_results/06_taxonomy.qza \
-  --output-path 04_feature_table/taxa
+  --output-path 04_feature_table/taxa 
 
 sed -i -e '1 s/Feature/#Feature/' -e '1 s/Taxon/taxonomy/' 04_feature_table/taxa/taxonomy.tsv
 
