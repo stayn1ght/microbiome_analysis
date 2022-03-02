@@ -12,11 +12,11 @@ BiocManager::install("microbiomeMarker")
 
 
 library(microbiomeMarker)
-
+library(ggplot2)
 # importing data from qiime2
-otuqza_file <- "$PATH/table.qza"
-taxaqza_file <- "$PATH/taxonomy.qza"
-sample_file <- "$PATH/sample-metadata.tsv"
+otuqza_file <- "03_qiime_results/03_table.qza"
+taxaqza_file <- "03_qiime_results/06_taxonomy.qza"
+sample_file <- "meta"
 
 ps <- import_qiime2( # 这个函数就是导入数据的函数, 具体参数似乎可以调整, 比如可以再加tree.qza
     otu_qza = otuqza_file, taxa_qza = taxaqza_file,
@@ -33,22 +33,17 @@ ps <- import_qiime2( # 这个函数就是导入数据的函数, 具体参数似�
 ## metagenome based methods, LEfSe method. There are also other methods.
 
 #### 
-data(kostic_crc)
-kostic_crc_small <- phyloseq::subset_taxa(
-    kostic_crc,
-    Phylum %in% c("Firmicutes")
-) # maybe import data from the dataset kostic_crc.
 
 mm_lefse <- run_lefse(
-    # kostic_crc_small,
     ps,
-    wilcoxon_cutoff = 0.01,
-    group = "####",
-    kw_cutoff = 0.01,
+    wilcoxon_cutoff = 0.05,
+    group = "label",
+    kw_cutoff = 0.05,
     multigrp_strat = TRUE,
     lda_cutoff = 2
 )
 #### 
 
 # Visualization
-plot_ef_bar(mm_lefse)
+plot_ef_bar(mm_lefse) +
+  labs(x = 'LDA score (log10)')
