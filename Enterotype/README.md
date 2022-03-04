@@ -1,4 +1,4 @@
-# Enterotype of human gut microbiome
+# Enterotype of human gut mycobiome
 进行属水平的分析
 
-## 肠型有什么作用？意义？
+# what's new?
