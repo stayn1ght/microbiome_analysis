@@ -23,6 +23,8 @@
 ![质量信息](./figures/quality.png)
 
 ## 去噪
+[dada2 reference](https://szjshuffle.github.io/2019/11-02-DADA2%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0.html)这篇博客讲的dada2的原理比较清楚。
+
 
 根据质量信息，使用data2去噪，获得data2_stats.qza, 可视化的结果是data2_stats.qzv, 打开可视化结果,将其导出成为metadata, 供后面的步骤使用。
 
@@ -35,6 +37,4 @@ biom convert -i feature-table-class.qza -o table.tsv --to-tsv
 ```
 
 ## 过滤feature table
-feature 是什么意思？
-
-feature
+feature 是什么意思？指的就是菌，在高维空间中每个菌是一个特征。
