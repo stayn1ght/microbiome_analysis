@@ -7,6 +7,6 @@ interactive plot is used for prevalence and abundance analysis.
 
 [biomarker](bioMarker/microbiomeMarker.R) the script are used to conduct LEfSe analysis using R package 'microbiomeMarker'
 
-[qiime2_analyse]() actually there's no script for qiime2, please see the official documents.
+[qiime2_analyse]() qiime2 analysis pipeline for ITS and 18S sequencing data.
 
 =￣ω￣=
