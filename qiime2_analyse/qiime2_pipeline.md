@@ -79,6 +79,7 @@ time qiime demux summarize \
 ```
 ## 序列质控和生成特征表
 dada2降噪流程, 截取片段所用的值根据前一步质量信息来选择
+[losing too many reads after dada2](https://forum.qiime2.org/t/loosing-60-of-my-reads-although-good-quality-scores/22459) This forum page gives an answer why there are few reads remain after dada2 denoising. That is because the overlap region parameter '--p-trunc-len'. Dada2 will filter the reads whose lenth are below the value.
 
 ```bash
 time qiime dada2 denoise-paired \
