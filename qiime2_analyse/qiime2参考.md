@@ -37,4 +37,5 @@ biom convert -i feature-table-class.qza -o table.tsv --to-tsv
 ```
 
 ## 过滤feature table
-feature 是什么意思？指的就是菌，在高维空间中每个菌是一个特征。
+feature 是什么意思？
+feature是特征，是机器学习中的术语，在这里可以是菌或者ASV。
