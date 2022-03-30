@@ -1,16 +1,16 @@
 # to make metadata
 
 ```shell
-mv SraRunTable.txt metadata.csv
+cp SraRunTable.txt  ./metadata.csv
 ```
 
 ```shell
 # delete 16S items
-sed '/16S/d' metadata.csv | cat > f_metadata.csv
+sed '/16S/d' metadata.csv | cat > metadata.csv
 ```
 
 ```R
-meta <- read.csv("f_metadata.csv", header = TRUE)
+meta <- read.csv("metadata.csv", header = TRUE)
 temp0 <- meta["Run"] # don't change
 temp0 <- cbind(temp0, meta["Host_disease"])
 colnames(temp0) <- c("sampleid", "phenotype")
