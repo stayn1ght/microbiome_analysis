@@ -6,7 +6,8 @@ cp SraRunTable.txt  ./metadata.csv
 
 ```shell
 # delete 16S items
-sed '/16S/d' metadata.csv | cat > metadata.csv
+# sed '/16S/d' metadata.csv | cat > metadata.csv 这个语句无论如何都会得到一个空的metadata.csv
+sed -i '/16S/d' metadata.csv
 ```
 
 ```R
