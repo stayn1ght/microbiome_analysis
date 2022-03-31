@@ -1,9 +1,14 @@
 # qiime2工作流程
 
 ## preparations
+
+### make metadata
+the first thing above all is filtering the SraRunTable to get the metadata we need.
+[click here for scripts](stayn1ght/microbiome_analysis/qiime2_analyse/make_metadata.md)
+
 ### download_data
 ```bash
-awk -F "," '{print $1}' SraRunTable.txt > run_acc.ls
+awk -F "," '{print $1}' metadata.csv > run_acc.ls
 sh /mnt/raid8/datarepo/scripts/01_download_rawdata.sh *.ls   ena   fastq
 rm *.ls
 
