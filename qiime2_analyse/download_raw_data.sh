@@ -32,6 +32,7 @@ fi
 # 2022.3.18 update
 ## Using the script below to download data successfully. while using -as /PATH/aspera_settints.ini
 ## got false. The reason still stay unsong. What's more, using xargs also got the wrong end of stick.
+awk -F "," '{print $1}' metadata.csv > run_acc.ls
 for line in $(cat run_acc.ls)
 do 
  python3 /mnt/raid8/datarepo/software/enaBrowserTools-1.5.4/python3/enaDataGet.py -f fastq \
@@ -39,3 +40,12 @@ do
  $line
 done
 
+# 2022.4.4 update
+## using the script below on the bzmc machine.
+awk -F "," '{print $1}' metadata.csv > run_acc.ls
+for line in $(cat run_acc.ls)
+do 
+ python3 ~/mingyuwang_working/ena_BrowserTools/enaBrowserTools-1.1.0/python3/enaDataGet.py -f fastq \
+ -d 01_rawdata \
+ $line
+done
