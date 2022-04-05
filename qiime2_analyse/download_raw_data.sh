@@ -40,12 +40,19 @@ do
  $line
 done
 
+#--------------
+
 # 2022.4.4 update
 ## using the script below on the bzmc machine.
+## 2022.4.5 It's not working. Maybe aspera is needed.
 awk -F "," '{print $1}' metadata.csv > run_acc.ls
 for line in $(cat run_acc.ls)
 do 
- python3 ~/mingyuwang_working/ena_BrowserTools/enaBrowserTools-1.1.0/python3/enaDataGet.py -f fastq \
+ python3 ~/mingyuwang_working/ena_BrowserTools/enaBrowserTools-1.6/python3/enaDataGet.py -f fastq \
  -d 01_rawdata \
  $line
 done
+
+cat run_acc.ls | xargs -n 1 ~/anaconda3/bin/python3 \
+    ~/mingyuwang_working/ena_BrowserTools/enaBrowserTools-1.6/python3/enaDataGet.py -f fastq \
+    -d  01_rawdata/
