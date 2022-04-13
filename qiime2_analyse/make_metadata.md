@@ -20,7 +20,7 @@ q()
 
 
 ```shell
-sed -i '1s/$/\t"label"/' meta
+sed -i '1s/$/\t"label"/' meta # don't change
 sed -i '/DR/ s/$/\t"Diabetic Retinopathy"/' meta
 sed -i '/HS/ s/$/\t"healthy"/' meta
 sed -i '/T2D/ s/$/\t"type 2 Diabetes"/' meta
