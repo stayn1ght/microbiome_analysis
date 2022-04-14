@@ -82,7 +82,7 @@ pvals[pvals==-1] <- 0
 #筛选后的邻接矩阵
 adj <- as.matrix(cor_sparcc) * as.matrix(pvals)
 diag(adj) <- 0    #将相关矩阵中对角线中的值（代表了自相关）转为 0
-write.table(data.frame(adj, check.names = FALSE), 'neetwork.adj.txt', col.names = NA, sep = '\t', quote = FALSE)
+write.table(data.frame(adj, check.names = FALSE), 'network_adj.txt', col.names = NA, sep = '\t', quote = FALSE)
 
 ```
 
@@ -96,7 +96,7 @@ library(igraphdata)
 library(igraph)
  
 #输入数据，邻接矩阵
-neetwork_adj <- read.delim('neetwork.adj.txt', row.names = 1, sep = '\t', check.names = FALSE)
+neetwork_adj <- read.delim('network_adj.txt', row.names = 1, sep = '\t', check.names = FALSE)
 head(neetwork_adj)[1:6]    #邻接矩阵类型的网络文件
  
 #邻接矩阵 -> igraph 的邻接列表，获得含权的无向网络
