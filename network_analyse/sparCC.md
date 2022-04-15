@@ -30,7 +30,7 @@ write.table (otu_Flattening1, file ="otu_Flattening1.csv",sep =",", quote =FALSE
 
 #注意输出的文件需要在最前面加一个逗号，否则列对不上
 ```
-
+这里产生的otu_Flattening1.csv文件第一列是taxa name，在下一步使用sparCC处理后将被替换成数字而失去taxa name， 推测这个顺序是没有被改变的，所以在最后用cytoscape画图的时候直接把otu_Flattening1.csv文件第一列复制过去作为第一列。
 
 ## 对于抽平后的数据，使用sparcc
 
@@ -96,7 +96,7 @@ library(igraphdata)
 library(igraph)
  
 #输入数据，邻接矩阵
-neetwork_adj <- read.delim('network_adj.txt', row.names = 1, sep = '\t', check.names = FALSE)
+network_adj <- read.delim('network_adj.txt', row.names = 1, sep = '\t', check.names = FALSE)
 head(neetwork_adj)[1:6]    #邻接矩阵类型的网络文件
  
 #邻接矩阵 -> igraph 的邻接列表，获得含权的无向网络
