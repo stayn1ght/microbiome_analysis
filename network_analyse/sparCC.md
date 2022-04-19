@@ -40,6 +40,7 @@ write.table (otu_Flattening1, file ="otu_Flattening1.csv",sep =",", quote =FALSE
 # python /mnt/raid7/mingyuwang/gut_fungus/tools/SparCC/MakeBootstraps.py -h
 
 ## 第一步计算相关性矩阵
+mkdir basis_corr
 python /mnt/raid7/mingyuwang/gut_fungus/tools/SparCC/Compute_SparCC.py  -n Experiment_SparCC \
 -di otu_Flattening1.csv -ni 5 --save_cor=./basis_corr/cor_sparcc.csv
 
@@ -58,7 +59,7 @@ done
 
 ### 通过观测值的相关矩阵中系数（cor0），以及随机值的相关矩阵中系数（corN），考虑 |cor0|>|corN| 的频率，获得伪 p 值（我猜的应该是这样......）
 python /mnt/raid7/mingyuwang/gut_fungus/tools/SparCC/PseudoPvals.py ./basis_corr/cor_sparcc.csv ./pvals/perm_cor_#.csv 100 \
--o ./pvals_two_sided.csv -t two_sided
+-o ./basis_corr/pvals_two_sided.csv -t two_sided
 
 ```
 
@@ -70,7 +71,7 @@ setwd("PATH/06_cooccurrence/")
 cor_sparcc <- read.delim('./basis_corr/cor_sparcc.csv', row.names = 1, sep = ',', check.names = FALSE)
  
 #伪 p 值矩阵
-pvals <- read.delim('./pvals_two_sided.csv', row.names = 1, sep = ',', check.names = FALSE)
+pvals <- read.delim('./basis_corr/pvals_two_sided.csv', row.names = 1, sep = ',', check.names = FALSE)
  
 #保留 |相关性|≥0.8 且 p<0.01的值
 # cor_sparcc[abs(cor_sparcc) < 0.8] <- 0 试验用的数据集中相关性都不高，阈值设为0.3也没有显著相关性，这份数据包括两种表型的人群，相关性不高的原因？
@@ -97,10 +98,10 @@ library(igraph)
  
 #输入数据，邻接矩阵
 network_adj <- read.delim('network_adj.txt', row.names = 1, sep = '\t', check.names = FALSE)
-head(neetwork_adj)[1:6]    #邻接矩阵类型的网络文件
+head(network_adj)[1:6]    #邻接矩阵类型的网络文件
  
 #邻接矩阵 -> igraph 的邻接列表，获得含权的无向网络
-g <- graph_from_adjacency_matrix(as.matrix(neetwork_adj), mode = 'undirected', weighted = TRUE, diag = FALSE)
+g <- graph_from_adjacency_matrix(as.matrix(network_adj), mode = 'undirected', weighted = TRUE, diag = FALSE)
 g    #igraph 的邻接列表
  
 #这种转换模式下，默认的边权重代表了 sparcc 计算的相关性（存在负值）
