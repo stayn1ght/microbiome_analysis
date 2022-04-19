@@ -47,3 +47,8 @@ mm_lefse <- run_lefse(
 # Visualization
 plot_ef_bar(mm_lefse) +
   labs(x = 'LDA score (log10)')
+
+# write the lda score to table
+lda_table <- marker_table(mm_lefse)
+lda_df <- data.frame(lda_table)
+write.csv(lda_df, file="05_lefse_analysis/markers.csv")
