@@ -14,6 +14,7 @@ BiocManager::install("microbiomeMarker")
 library(microbiomeMarker)
 library(ggplot2)
 # importing data from qiime2
+# setwd("/mnt/raid7/mingyuwang/gut_fungus/PRJNA698272/")
 otuqza_file <- "03_qiime_results/03_table.qza"
 taxaqza_file <- "03_qiime_results/06_taxonomy.qza"
 sample_file <- "meta"
