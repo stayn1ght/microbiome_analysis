@@ -95,7 +95,7 @@ time qiime dada2 denoise-paired \
   --p-trim-left-f 13 \
   --p-trim-left-r 13 \
   --p-trunc-len-f 250 \
-  --p-trunc-len-r 178 \
+  --p-trunc-len-r 178
 ```
 
 ```bash
