@@ -31,3 +31,4 @@ time qiime taxa barplot \
   --i-taxonomy 03_qiime_results/06_taxonomy.qza \
   --m-metadata-file meta \
   --o-visualization 03_qiime_results/taxa-bar-plots.qzv
+
