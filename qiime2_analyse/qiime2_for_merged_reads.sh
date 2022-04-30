@@ -9,9 +9,18 @@ qiime vsearch dereplicate-sequences \
   --o-dereplicated-table 03_qiime_results/03_table.qza \
   --o-dereplicated-sequences 03_qiime_results/04_rep-seqs.qza
 
+# next step is de novo clustering of the sequences, aiming to make it faster to classify.
+qiime vsearch cluster-features-de-novo \
+  --i-table 03_qiime_results/03_table.qza \
+  --i-sequences 03_qiime_results/04_rep-seqs.qza \
+  --p-perc-identity 0.99 \
+  --o-clustered-table 03_qiime_results/table-dn-99.qza \
+  --o-clustered-sequences 03_qiime_results/rep-seqs-dn-99.qza
+
+
 time qiime feature-classifier classify-sklearn \
   --i-classifier /mnt/raid7/mingyuwang/gut_fungus/example_PRJNA751473_ITS/02_classifier/01* \
-  --i-reads 03_qiime_results/04_rep-seqs.qza \
+  --i-reads 03_qiime_results/rep-seqs-dn-99.qza \
   --o-classification 03_qiime_results/06_taxonomy.qza
   
 time qiime metadata tabulate \
