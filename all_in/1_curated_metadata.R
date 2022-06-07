@@ -1,4 +1,6 @@
 library(dplyr)
+# STEP1. curate metadata which is downloaded from ncbi bioproject
+## 1. get mesh id by hand for each project
 metadata <- read.csv("curated_metadata.csv")
 mesh.id <- data.frame(c("atopic", "healthy", "IBS", "COVID-19", "Diabetic Retinopathy", "type 2 Diabetes", "Alzheimer disease",
                        "NAFLD", "healthy control", "NAFL", "NASH", "type 1 diabetes"

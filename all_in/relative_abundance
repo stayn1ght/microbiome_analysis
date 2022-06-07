@@ -1,0 +1,56 @@
+### 这里应该是比较靠后的步骤，将分析产生的feature table合并到一起之后，再用这个脚本转换成相对丰度。
+# process feature table to long format
+## the original feature table is an abundance table, needed to normalizate, while keeping the original table because of the LEfSe.
+## 1. culculate relative abundance
+original.feature.table <- read.csv("../abundance_genus_1.csv")
+wide.format <- dcast(original.feature.table, project_id + run_id ~ taxon_name)
+
+
+total <- select(wide.format, -project_id, -run_id) %>% rowSums(na.rm=TRUE) # the total abundance of each sample
+relative.abundance <- select(wide.format, -project_id, -run_id)/total # the relative abundance of each sample
+relative.abundance <- select(wide.format, run_id) %>% bind_cols(select(wide.format, -project_id, -run_id)/total) %>%
+  melt(variable.name = "taxon_name", value.name = "abundance") %>%
+  filter( abundance != 0, taxon_name != "k__Fungi.__.__.__.__.__") %>%
+  rename(relative_abundance = abundance) %>%
+  arrange(run_id)
+  # there are some taxon with relative abundance 1, with means that we should omit it. QC steps?
+write.csv(file="taxon_abundance.csv", relative.abundance, row.names=FALSE) # the number in the file name means the batch
+
+## 2. taxon name should be changed, only genus name will remain.
+write.csv(file="temp_taxon_name", relative.abundance["taxon_name"], row.names=FALSE)
+### 2.1 bash commands will be used ----------------
+sed -i "s/\"//g" temp_taxon_name
+sed -i "s/\.[a-z]\_\_/,/g" temp_taxon_name 
+sed -i 's/k\_\_//g' temp_taxon_name ## 把 k__ p__ 这样的前缀去掉
+sed -i "s/\_/ /g" temp_taxon_name ## 把菌名中的下划线换成空格
+sed -i 's/\.  /,  /g' temp_taxon_name
+sed -i "1d" temp_taxon_name
+### 2.2 read the taxon name file and 
+taxon <- read.table( "temp_taxon_name", header=FALSE, sep=",")
+colnames(taxon) <- c("kingdom", "phylum", "class", "order", "family", "genus") 
+write.table(distinct(taxon["genus"]), file="temp_genus_name", row.names=FALSE)
+### 2.3 第一行是行名要去掉，因为ncbi taxonomy数据库不需要这一行
+### bash conmmand are used here
+sed -i "s/\"//g" temp_genus_name
+sed -i "1d" temp_genus_name
+
+### 2.4 get ncbi taxon id
+
+### 2.5 attach ncbi taxon id to the abundance table
+### bash used ------------
+sed -i "s/\t|\t/,/g" tax_report.txt  ## the original file is separated by |, which is difficult to deal using R.
+sed -i 's/"//g' tax_report.txt       ## the " in the file get the read table wrong.
+
+### attach
+ncbi.genus.id <- read.csv("tax_report.txt", header=TRUE) %>% filter(name != "") %>% distinct() %>% rename(genus = name)
+  # some taxon are not assigned to certan species, as a result of which the name is empty.
+taxon.id.not.found <- filter(ncbi.genus.id, code == 3) %>% select(genus) %>% distinct()
+
+feature.table <- bind_cols(relative.abundance, taxon["genus"]) %>%
+  select(-taxon_name) %>%
+  left_join(ncbi.genus.id, by="genus") %>% 
+  filter(genus != "  ") %>%
+  bind_cols(taxon_rank_level = c("genus")) %>%
+  select(-code, -genus, -preferred.name)
+
+write.csv(feature.table, file = "taxon_abundance.csv", row.names = FALSE)
