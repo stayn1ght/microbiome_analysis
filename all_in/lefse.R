@@ -1,4 +1,16 @@
 # STEP5 lefse analysis for each bioproject with at least two phenotypes
+### -----
+https://blog.csdn.net/woodcorpse/article/details/102720794
+首先需要对qiime2结果进行过滤，只保留属水平的特征
+### bash ----------
+qiime taxa filter-table \
+  --i-table 03_table.qza \
+  --i-taxonomy 06_taxonomy.qza \
+  --p-include p__ \ 
+  --p-exclude s__ \
+  --o-filtered-table table-with-genus.qza
+
+
 
 ## 1. importing data from qiime2
 
