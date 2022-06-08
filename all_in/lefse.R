@@ -7,7 +7,6 @@ qiime taxa filter-table \
   --i-table 03_table.qza \
   --i-taxonomy 06_taxonomy.qza \
   --p-include p__ \ 
-  --p-exclude s__ \
   --o-filtered-table table-with-genus.qza
 
 
