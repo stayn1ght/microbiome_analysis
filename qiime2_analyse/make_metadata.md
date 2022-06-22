@@ -11,8 +11,8 @@ sed -i '/V3-V4/d' metadata.csv
 ```R
 meta <- read.csv("metadata.csv", header = TRUE)
 temp0 <- meta["Run"] # don't change
-temp0 <- cbind(temp0, meta["Host_disease"])
-colnames(temp0) <- c("sampleid", "phenotype")
+# temp0 <- cbind(temp0, meta["Host_disease"])
+# colnames(temp0) <- c("sampleid", "phenotype")
 write.table(temp0, file = "meta", sep = '\t', row.names = FALSE)
 q()
 
