@@ -20,6 +20,7 @@ otu <- read.table("08_table_level6.tsv", header = T, sep = "\t", row.names = 1)
 otu1 <- otu_table(otu, taxa_are_rows = T)
 otu2 = phyloseq(otu1)
 set.seed(123)
+# 抽平处理
 otu_Flattening1 = rarefy_even_depth(otu2,replace = TRUE)
 
 sample_sums(otu2)
