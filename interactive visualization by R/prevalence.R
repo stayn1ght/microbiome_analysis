@@ -8,7 +8,7 @@ prevalence_vs_abundance <- function(data, threshold = 0.0001){
     bool_table <- data > threshold
     x <- rowSums(bool_table)
     y <- ncol(bool_table)
-    prevalence <- x/y
+    prevalence <- x / y
 
     mean_abundance <- apply(data, 1, mean)
     median_abundance <- apply(data, 1, median)
