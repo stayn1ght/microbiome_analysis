@@ -112,15 +112,6 @@ time qiime dada2 denoise-single \
 ```bash
 # 上述命令需要保存log
 cat > dada2-parameter.log
-# time qiime dada2 denoise-paired \
-#   --i-demultiplexed-seqs 03_qiime_results/02_paired-end-demux.qza \
-#   --o-table 03_qiime_results/03_table.qza \
-#   --o-representative-sequences 03_qiime_results/04_rep-seqs.qza \
-#   --o-denoising-stats 03_qiime_results/05_denoising-stats.qza \
-#   --p-trim-left-f <> \
-#   --p-trim-left-r <> \
-#   --p-trunc-len-f <> \
-#   --p-trunc-len-r <>
 ```
 
 对特征表统计进行可视化
